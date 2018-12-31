@@ -25,7 +25,7 @@ public class SimpleServer implements Runnable {
 	}
 	
 	private void regServer() {
-		//向ZooKeeper注册当前服务器
+		//鍚憐ookeeper娉ㄥ唽
 		ZkClient client = new ZkClient("127.0.0.1:2181", 60000, 1000);
 		String path = "/test/server" + port;
 		if(client.exists(path))

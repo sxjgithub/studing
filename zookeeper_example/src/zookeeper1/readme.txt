@@ -1,1 +1,1 @@
-此版本只有网络BIO写的服务器，没有加入zookeeper协调
+BIO鍐欑殑鏈嶅姟鍣紝娌℃湁娣诲姞zookeeper鍗忚皟

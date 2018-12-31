@@ -38,7 +38,7 @@ public class SimpleClient {
 	}
 	
 	private static void initServerList() {
-		//Æô¶¯Ê±´ÓZooKeeper¶ÁÈ¡¿ÉÓÃ·şÎñÆ÷
+		//è¯»å–å‘zookeeperä¸­æ³¨å†Œçš„æœåŠ¡å™¨
 		String path = "/test";
 		ZkClient zkClient = new ZkClient("127.0.0.1:2181", 60000, 1000);
 		List<String> childs = zkClient.getChildren(path);
@@ -46,7 +46,8 @@ public class SimpleClient {
 		for(String p : childs) {
 			servers.add(zkClient.readData(path + "/" + p));
 		}
-		//¶©ÔÄ½Úµã±ä»¯ÊÂ¼ş
+		
+		//æ³¨å†Œç›‘å¬
 		zkClient.subscribeChildChanges("/test", new IZkChildListener() {
 			@Override
 			public void handleChildChange(String parentPath, List<String> currentChilds)
