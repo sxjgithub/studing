@@ -42,7 +42,7 @@ public class ClientHandle implements Runnable{
 	@Override
 	public void run() {
 		try{
-			doConnect();
+			doConnect();		
 		}catch(IOException e){
 			e.printStackTrace();
 			System.exit(1);
@@ -87,12 +87,23 @@ public class ClientHandle implements Runnable{
 	private void handleInput(SelectionKey key) throws IOException{
 		if(key.isValid()){
 			SocketChannel sc = (SocketChannel) key.channel();
-			if(key.isConnectable()){
-				if(sc.finishConnect());
+			if(key.isConnectable()){ //------------------
+				if(sc.finishConnect()){
+					
+					//连接完成就可以发送消息给服务器----------------------
+					try {
+						if(!Client.sendMsg(utils.KeyBoardIn.println())){
+							System.exit(1);
+						}
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 				else System.exit(1);
 			}
 			//读消息
-			if(key.isReadable()){
+			if(key.isReadable()){//------------------------
 				//创建ByteBuffer，并开辟一个1M的缓冲区
 				ByteBuffer buffer = ByteBuffer.allocate(1024);
 				//读取请求码流，返回读取到的字节数
@@ -107,6 +118,16 @@ public class ClientHandle implements Runnable{
 					buffer.get(bytes);
 					String result = new String(bytes,"UTF-8");
 					System.out.println("客户端收到消息：" + result);
+					
+					//读完继续写---------------------------------------------
+					try {
+						if(!Client.sendMsg(utils.KeyBoardIn.println())){
+							System.exit(1);
+						}
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 				//没有读取到字节 忽略
 //				else if(readBytes==0);
